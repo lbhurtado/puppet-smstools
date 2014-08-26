@@ -6,9 +6,7 @@
 # ************************************
 
 devices = ? GSM1 | GSM1, GSM2, GSM3 | GSM88, GMS99
-outgoing = /var/spool/sms/outgoing
-checked = /var/spool/sms/checked
-incoming = /var/spool/sms/incoming
+
 logfile = /var/log/smstools/smsd.log
 infofile = /var/run/smstools/smsd.working
 pidfile = /var/run/smstools/smsd.pid
@@ -20,9 +18,7 @@ sent = /var/spool/sms/sent
 stats = /var/log/smstools/smsd_stats
 
 <% if @loglevel -%>
-  loglevel <%= @loglevel %>
-<% else -%>
-  #loglevel = 7
+loglevel = <%= @loglevel %>
 <% end -%>
 
 #delaytime = 10
@@ -44,9 +40,16 @@ autosplit = 3
 # alarmhandler = /path/to/an/alarmhandler/script
 # Specifies what levels start an alarmhandler. You can use value between 2 and 5.
 # alarmlevel = 4
-# eventhandler = @EVENTHANDLER@
-#blacklist = /etc/smstools/blacklist
-#whitelist = /etc/smstools/whitelist
+
+<% @handler.each do |item| %><%= item %> = <%= @binaries_dir%>/<%= item %>
+<% end %>
+<% @accessor.each do |item| %><%= item %> = <%= @config_dir%>/<%= item %>
+<% end %>
+
+<% if @blacklist -%>
+#blah, blah, blah
+<% end -%>
+
 
 #[queues]
 # Commented lines are examples for germany

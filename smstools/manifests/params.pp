@@ -17,4 +17,12 @@ class smstools::params {
       fail("${::operatingsystem} not supported")
     }
   }
+  $config_dir      = "/etc/$package_name"
+  $binaries_dir    = '/usr/local/bin'
+
+  $config          = '/etc/smsd.conf'
+  $config_template = 'smstools/smsd.conf.erb'
+  
+  $accessor        = ['blacklist', 'whitelist']
+  $handler         = ['eventhandler', 'checkhandler', 'alarmhandler']
 }
