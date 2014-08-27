@@ -46,10 +46,9 @@ autosplit = 3
 <% @accessor.each do |item| %><%= item %> = <%= @config_dir%>/<%= item %>
 <% end %>
 
-<% if @blacklist -%>
-#blah, blah, blah
-<% end -%>
-
+[queues]
+<% @telco.each do |item| %><%= item %> = <%= @prefix%>/<%= item %>
+<% end %>
 
 #[queues]
 # Commented lines are examples for germany
