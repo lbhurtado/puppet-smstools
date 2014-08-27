@@ -48,7 +48,7 @@ autosplit = 3
 <% end %>
 
 [queues]
-<% @telco.each do |item| %><%= item %> = <%= @sms_dir%>/<%= item %>
+<% @queues.each do |queue| %><%= queue %> = <%= @sms_dir%>/<%= queue %>
 <% end %>
 
 #[queues]
@@ -63,7 +63,7 @@ autosplit = 3
 
 
 [provider]
-<% @telco.each do |telco| %><%= telco %> = <% @prefix[telco].each do |prefix| %><%= prefix %>,<% end %>
+<% @queues.each do |telco| %><%= telco %> = <% @providers[telco].each do |prefixes| %><%= prefixes %>, <% end %>
 <% end %>
 
 #[provider]
@@ -77,7 +77,8 @@ autosplit = 3
 #OTHER = 0,1,2,3,4,5,6,7,8,9
 
 <% @modem.each do |modem| %>[<%= modem %>]
-device = <%= @device[modem] %>
+device = <%= @devices[modem]['device'] %>
+queues = <% @devices[modem]['queues'].each do |queue| %><%= queue %>, <% end %>
 report = no
 
 <% end %>

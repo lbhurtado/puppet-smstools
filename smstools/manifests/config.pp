@@ -57,10 +57,10 @@ class smstools::config {
       ensure  => directory,
       owner   => 0,
       group   => 0,
-      mode    => '0644',
+      mode    => '0666',
       require => File[$::smstools::sms_dir]
     }
   }
 
-  create_queue { $::smstools::telco: }
+  create_queue { $::smstools::queues: }
 }
