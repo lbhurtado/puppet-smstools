@@ -5,7 +5,8 @@
 # Managed by Puppet
 # ************************************
 
-devices = ? GSM1 | GSM1, GSM2, GSM3 | GSM88, GMS99
+devices = ? <%= @modem[0] %> | <% @modem.each do |item| %><%= item %>,<% end %>
+#devices = ? GSM1 | GSM1, GSM2, GSM3 | GSM88, GMS99
 
 logfile = /var/log/smstools/smsd.log
 infofile = /var/run/smstools/smsd.working
@@ -47,7 +48,7 @@ autosplit = 3
 <% end %>
 
 [queues]
-<% @telco.each do |item| %><%= item %> = <%= @prefix%>/<%= item %>
+<% @telco.each do |item| %><%= item %> = <%= @sms_dir%>/<%= item %>
 <% end %>
 
 #[queues]
@@ -60,6 +61,11 @@ autosplit = 3
 # MOBILCOM = /var/spool/sms/MOBILCOM
 #OTHER = /var/spool/sms/OTHER
 
+
+[provider]
+<% @telco.each do |telco| %><%= telco %> = <% @prefix[telco].each do |prefix| %><%= prefix %>,<% end %>
+<% end %>
+
 #[provider]
 # Commented lines are examples for germany
 # D1 = 49160, 49170, 49171, 49175, 49151
@@ -69,6 +75,12 @@ autosplit = 3
 # QUAM = 49150
 # MOBILCOM = 49156
 #OTHER = 0,1,2,3,4,5,6,7,8,9
+
+<% @modem.each do |modem| %>[<%= modem %>]
+device = <%= @device[modem] %>
+report = no
+
+<% end %>
 
 #[GSM1]
 # init = ATE0+CPMS="SM"+CNMI=2,0,0,2,1
