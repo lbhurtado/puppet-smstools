@@ -10,8 +10,8 @@
 class smstools (
   $package_name = $smstools::params::package_name,
   $service_name = $smstools::params::service_name,
-  $blacklist    = undef,
-  $whitelist    = undef,
+
+  $accessor     = $smstools::params::accessor,
 ) inherits smstools::params {
 
   # validate parameters here

@@ -37,21 +37,39 @@ class smstools::params {
   }
   $queues = keys($providers)
 
-  $devices = {
-    'GSM1' => {
-      'device' => '/dev/ttyUSB0',
-      'queues' => ['smart', 'next', 'exetel', 'other'],
-    },
-    'GSM2' => {
-      'device' => '/dev/ttyUSB1',
-      'queues' => ['globe'],
-    },
-    'GSM3' => {
-      'device' => '/dev/ttyUSB2',
-      'queues' => ['sun'],
-    },
-  }
-  $modem = keys($devices)
+  $max_devices = 3
+  $cnt_devices = 2
 
-  notice ($modem)
+  case $cnt_devices {
+
+    default: {
+      $devices = {
+        'GSM1' => {
+          'device' => '/tmp/ttyGSM1',
+         }
+      }
+    }
+  }
+
+  $modem = keys($devices)
+  $modem_count = count($devices)
+
+/*
+  Lester, create scenarios
+    1. default - 1 GSM, no ttyUSB0
+        -> create /tmp/ttyUSB0
+    2. 1 GSM, w/ ttyS0
+    3. single queue
+    4. multiple queues
+*/
+  notice(count($devices))
+
+#
+#
+#
+# Global Settings
+
+
+
+
 }

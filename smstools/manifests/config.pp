@@ -14,10 +14,12 @@ class smstools::config {
   }
  
   file { $::smstools::config_dir:
-    ensure => directory,
-    owner  => 0,
-    group  => 0,
-    mode   => '0644',
+    ensure  => directory,
+    owner   => 0,
+    group   => 0,
+    mode    => '0644',
+    purge   => true,
+    recurse => true,
   }
 
   file { $::smstools::sms_dir:
@@ -63,4 +65,16 @@ class smstools::config {
   }
 
   create_queue { $::smstools::queues: }
+
+  define create_tty {
+    file { "/tmp/tty${title}":
+      ensure  => file,
+      owner   => 0,
+      group   => 0,
+      mode    => '0666',
+    }
+  }
+
+  create_tty { $::smstools::modem: }
+
 }
