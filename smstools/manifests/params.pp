@@ -37,22 +37,62 @@ class smstools::params {
   }
   $queues = keys($providers)
 
+  $modem_settings_controlled = {
+    'modem_disabled' => true,
+  }
+
+  $modem_settings_default = {
+    'memory_start' => 1,
+    'baudrate'     => '9600',
+    'report'       => 'no',
+  }
+
+  $modem_settings = merge($modem_settings_controlled, $modem_settings_default)
+  $modem_setting_keys = keys($modem_settings)
+
   $max_devices = 3
   $cnt_devices = 2
+  $mode        = 3
 
-  case $cnt_devices {
+  /*
+    device modes
+      '01' - test mode
+      '10' - one modem, no queue
+      '11'
+  */ 
 
-    default: {
+  case $mode {
+    1: { 
       $devices = {
         'GSM1' => {
-          'device' => '/tmp/ttyGSM1',
+          'device' => '/tmp/ttyUSB0',
+          'baudrate' => '2400'
          }
       }
     }
+    2: {
+      $devices = {
+        'GSM1' => { 'device' => '/tmp/ttyUSB0',},
+        'GSM2' => { 'device' => '/tmp/ttyUSB1',},
+        'GSM3' => { 'device' => '/tmp/ttyUSB2',},
+      }
+    }
+    3: {
+      $devices = {
+        'GSM1' => { 'device' => '/tmp/ttyUSB0', 'queues' => 'smart,next,exetel,other',},
+        'GSM2' => { 'device' => '/tmp/ttyUSB1', 'queues' => 'sun',},
+        'GSM3' => { 'device' => '/tmp/ttyUSB2', 'queues' => 'globe',},
+      }
+    }
+    default: {
+      $devices = {
+        'GSM1' => { 'device' => '/tmp/ttyGSM1',},
+        'GSM2' => { 'device' => '/tmp/ttyGSM2',},
+      }
+    }
   }
-
-  $modem = keys($devices)
-  $modem_count = count($devices)
+  $device_keys = keys($devices)
+  $device_count = count($devices)
 
 /*
   Lester, create scenarios
@@ -62,7 +102,7 @@ class smstools::params {
     3. single queue
     4. multiple queues
 */
-  notice(count($devices))
+  notice($device_keys)
 
 #
 #

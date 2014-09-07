@@ -5,8 +5,8 @@
 # Managed by Puppet
 # ************************************
 
-devices = <% @modem.each do |item| %><%= item %>, <% end %>
-#devices = ? <%= @modem[0] %> | <% @modem.each do |item| %><%= item %>,<% end %>
+devices = <% @device_keys.each do |item| %><%= item %>, <% end %>
+#devices = ? <%= @device_keys[0] %> | <% @device_keys.each do |item| %><%= item %>,<% end %>
 
 
 logfile = /var/log/smstools/smsd.log
@@ -45,7 +45,7 @@ autosplit = 3
 <% end %>
 <% @accessor.each do |item| %><%= item %> = <%= @config_dir%>/<%= item %>
 <% end %>
-<% if @modem_count > 1 %>
+<% if @device_count > 1 %>
 [queues]
 <% @queues.each do |queue| %><%= queue %> = <%= @sms_dir%>/<%= queue %>
 <% end %>
@@ -55,13 +55,11 @@ autosplit = 3
 <% end %>
 
 [default]
-modem_disabled = true
+<% @modem_setting_keys.each do |key| %><%= key %> = <%= @modem_settings[key] %>
+<% end -%>
 
-<% @modem.each do |modem| %>[<%= modem %>]
-device = <%= @devices[modem]['device'] %>
-<% if @modem_count > 1 %>
-queues = <% @devices[modem]['queues'].each do |queue| %><%= queue %>, <% end %>
+<% @device_keys.each do |modem| %>[<%= modem %>]
+<% @devices[modem].each do |key,value| %><%= key %> = <%= value %>
 <% end %>
-report = no
+<% end %>
 
-<% end %>
