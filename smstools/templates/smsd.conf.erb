@@ -8,7 +8,6 @@
 devices = <% @device_keys.each do |item| %><%= item %>, <% end %>
 #devices = ? <%= @device_keys[0] %> | <% @device_keys.each do |item| %><%= item %>,<% end %>
 
-
 logfile = /var/log/smstools/smsd.log
 infofile = /var/run/smstools/smsd.working
 pidfile = /var/run/smstools/smsd.pid
@@ -19,32 +18,12 @@ incoming = /var/spool/sms/incoming
 sent = /var/spool/sms/sent
 stats = /var/log/smstools/smsd_stats
 
-<% if @loglevel -%>
-loglevel = <%= @loglevel %>
-<% end -%>
-
-#delaytime = 10
-#errorsleeptime = 10
-#blocktime = 3600
-#stats_interval = 3600
-#stats_no_zeroes = no
-receive_before_send = no
-# autosplit 0=no 1=yes 2=with text numbers 3=concatenated
-autosplit = 3
-# store_received_pdu 0=no, 1=unsupported, 2=unsupported and 8bit, 3=all
-#store_received_pdu = 1
-#validity = 255
-#decode_unicode_text = no
-#internal_combine = no
-# You can specify here an external program that is started whenever an alarm occurs.
-# alarmhandler = /path/to/an/alarmhandler/script
-# Specifies what levels start an alarmhandler. You can use value between 2 and 5.
-# alarmlevel = 4
-
 <% @handler.each do |item| %><%= item %> = <%= @binaries_dir%>/<%= item %>
 <% end %>
 <% @accessor.each do |item| %><%= item %> = <%= @config_dir%>/<%= item %>
 <% end %>
+<% @global_setting_keys.each do |key| %><%= key %> = <%= @global_settings[key] %>
+<% end -%>
 <% if @device_count > 1 %>
 [queues]
 <% @queues.each do |queue| %><%= queue %> = <%= @sms_dir%>/<%= queue %>
@@ -52,8 +31,7 @@ autosplit = 3
 [provider]
 <% @queues.each do |telco| %><%= telco %> = <% @providers[telco].each do |prefixes| %><%= prefixes %>, <% end %>
 <% end %>
-<% end %>
-
+<% end -%>
 [default]
 <% @modem_setting_keys.each do |key| %><%= key %> = <%= @modem_settings[key] %>
 <% end -%>
@@ -62,4 +40,3 @@ autosplit = 3
 <% @devices[modem].each do |key,value| %><%= key %> = <%= value %>
 <% end %>
 <% end %>
-

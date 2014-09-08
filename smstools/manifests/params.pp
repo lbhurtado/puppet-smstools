@@ -37,6 +37,31 @@ class smstools::params {
   }
   $queues = keys($providers)
 
+  $global_settings_controlled = {
+    'date_filename'    => 2,
+    'filename_preview' => 10,
+  }  
+
+  $global_settings_default = {
+    'admin_to'            => 639189362340,
+    'alarmlevel'          => 4,
+    'autosplit'           => 3,
+    'blocktime'           => 3600,
+    'decode_unicode_text' => no,
+    'delaytime'           => 10,
+    'errorsleeptime'      => 10,
+    'loglevel'            => debug,
+    'internal_combine'    => no,
+    'national_prefixes'   => 0,
+    'receive_before_send' => no,
+    'stats_interval'      => 3600,
+    'stats_no_zeroes'     => no,
+    'validity'            => 255,
+  }
+
+  $global_settings = merge($global_settings_controlled, $global_settings_default)
+  $global_setting_keys = keys($global_settings)
+
   $modem_settings_controlled = {
     'modem_disabled' => true,
   }
@@ -50,44 +75,31 @@ class smstools::params {
   $modem_settings = merge($modem_settings_controlled, $modem_settings_default)
   $modem_setting_keys = keys($modem_settings)
 
-  $max_devices = 3
-  $cnt_devices = 2
   $mode        = 3
-
-  /*
-    device modes
-      '01' - test mode
-      '10' - one modem, no queue
-      '11'
-  */ 
 
   case $mode {
     1: { 
       $devices = {
-        'GSM1' => {
-          'device' => '/tmp/ttyUSB0',
-          'baudrate' => '2400'
-         }
+        'GSM1' => { 'device' => '/tmp/ttyUSB0', },
       }
     }
     2: {
       $devices = {
-        'GSM1' => { 'device' => '/tmp/ttyUSB0',},
-        'GSM2' => { 'device' => '/tmp/ttyUSB1',},
-        'GSM3' => { 'device' => '/tmp/ttyUSB2',},
+        'GSM1' => { 'device' => '/tmp/ttyUSB0', },
+        'GSM2' => { 'device' => '/tmp/ttyUSB1', },
+        'GSM3' => { 'device' => '/tmp/ttyUSB2', },
       }
     }
     3: {
       $devices = {
-        'GSM1' => { 'device' => '/tmp/ttyUSB0', 'queues' => 'smart,next,exetel,other',},
-        'GSM2' => { 'device' => '/tmp/ttyUSB1', 'queues' => 'sun',},
-        'GSM3' => { 'device' => '/tmp/ttyUSB2', 'queues' => 'globe',},
+        'GSM1' => { 'device' => '/tmp/ttyUSB0', 'queues' => 'smart,next,exetel,other', },
+        'GSM2' => { 'device' => '/tmp/ttyUSB1', 'queues' => 'sun', },
+        'GSM3' => { 'device' => '/tmp/ttyUSB2', 'queues' => 'globe', },
       }
     }
     default: {
       $devices = {
-        'GSM1' => { 'device' => '/tmp/ttyGSM1',},
-        'GSM2' => { 'device' => '/tmp/ttyGSM2',},
+        'GSM1' => { 'device' => '/tmp/ttyUSB0', },
       }
     }
   }
@@ -102,7 +114,7 @@ class smstools::params {
     3. single queue
     4. multiple queues
 */
-  notice($device_keys)
+  notice($global_settings)
 
 #
 #
