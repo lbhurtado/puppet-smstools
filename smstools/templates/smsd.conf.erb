@@ -22,7 +22,7 @@ stats = /var/log/smstools/smsd_stats
 <% end %>
 <% @accessor.each do |item| %><%= item %> = <%= @config_dir%>/<%= item %>
 <% end %>
-<% @global_setting_keys.each do |key| %><%= key %> = <%= @global_settings[key] %>
+<% @global_setting_keys.each do |key| %><%= key %> = <%= @global_settings_merged[key] %>
 <% end -%>
 <% if @device_count > 1 %>
 [queues]
@@ -33,7 +33,7 @@ stats = /var/log/smstools/smsd_stats
 <% end %>
 <% end -%>
 [default]
-<% @modem_setting_keys.each do |key| %><%= key %> = <%= @modem_settings[key] %>
+<% @modem_setting_keys.each do |key| %><%= key %> = <%= @modem_settings_merged[key] %>
 <% end -%>
 
 <% @device_keys.each do |modem| %>[<%= modem %>]
