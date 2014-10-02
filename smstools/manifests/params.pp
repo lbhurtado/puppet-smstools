@@ -26,6 +26,7 @@ class smstools::params {
   
   $accessor        = ['blacklist', 'whitelist']
   $handler         = ['eventhandler', 'checkhandler', 'alarmhandler']
+  $script          = ['sendsms']
 
   $providers = {
     'smart' => [63813,63907,63908,63909,63910,63912,63918,63919,63920,63921,63928,63929,63930,63938,63939,63946,63947,63948,63949,63989,63998,63999],

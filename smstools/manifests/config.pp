@@ -54,6 +54,8 @@ class smstools::config {
   
   create_binary { $::smstools::handler: }
 
+  create_binary { $::smstools::script: }
+
   define create_queue {
     file { "$::smstools::sms_dir/${title}":
       ensure  => directory,
